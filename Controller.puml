@@ -1,0 +1,213 @@
+@startuml
+class controllers.Menu_controller {
+    -List<Menu_model> listMenu;
+    -Main_views mainView;
+    -TambahMenu_modal tambahMenuModal;
+    -EditMenu_modal editMenuModal;
+    -private Menu_interface menuIntf;
+    +Menu_controller(Main_views mainView)
+    +Menu_controller(TambahMenu_modal tambahMenuModal, Main_views mainView)
+    +Menu_controller(EditMenu_modal editMenuModal, Main_views mainView)
+    +void isiList()
+    +int getIdAt(int index)
+    +void resetInputan()
+    +void resetUpdateMenu()
+    +boolean insertMenu()
+    +void deleteMenu(int id)
+    +void editMenu(int id)
+    +boolean updateMenu()
+    +void updateStok(List<Menu_model> listPesanan)
+}
+class controllers.Nota_controller {
+    -List<Nota_model> listNota;
+    -Nota_interface notaIntf;
+    -Main_views mainView;
+    -RiwayatTransaksi_modal riwayatTransaksi;
+    +Nota_controller(Main_views mainView)
+    +Nota_controller(RiwayatTransaksi_modal riwayatTransaksi, Main_views mainView)
+    +void getAllTransaksi()
+    +void initTable()
+    +int saveNota()
+}
+
+class controllers.Pesanan_controller {
+    -List<Menu_model> listMenu
+    -Main_views mainView
+    -Menu_interface menuIntf
+    -Pesanan_interface pesananIntf
+    +Pesanan_controller(Main_views mainView)
+    +void insertPesanan(int idMenu, int jumlah)
+    +void initTable()
+    +List<Menu_model> getListPesanan()
+    +void removePesanan()
+    +voidsavePesanan()
+    +double getTotalBayar()
+
+
+}
+class dao.Menu_dao {
+    +Connection conn;
+    -List<Menu_model> listMenu;
+    -final String menu
+    -final String menuByid 
+    -final String insert 
+    -final String delete
+    -final String update 
+    -final String updateStok 
+    -Menu_model mM = new Menu_model();
+    
+    +Menu_dao()
+    +List<Menu_model> getAll()
+
+    +List<Menu_model> getById(int id, int jumlah)
+
+    +Menu_model getById(int id)
+    +void insert(Menu_model menuModel
+    +void delete(int id)
+    +void update(int id, Menu_model menuModel)
+    +void updateStok(Menu_model pesananModel)
+}
+class dao.Menu_interface {
+    +List<Menu_model> getAll();
+    +List<Menu_model> getById(int id, int jumlah);
+    +void insert(Menu_model menuModel);
+    +void update(int id, Menu_model menuModel);
+    +void delete(int id);
+    +Menu_model getById(int id);
+    +void updateStok(Menu_model pesananModel);
+}
+class dao.Nota_dao {
+    -Connection conn;
+    -List<Nota_model> listNota
+    -final String insert 
+    -final String selectAll
+    -Nota_model nm = new Nota_model();
+    +Nota_dao()
+    +int insert(Nota_model notaModel) 
+    +List<Nota_model> getAll()
+}
+class dao.Nota_interface {
+    +int insert(Nota_model notaModel);
+    +List<Nota_model> getAll();
+}
+class dao.Pesanan_dao {
+    -Connection conn;
+    -final String select = "SELECT * FROM pesanan WHERE";
+    -final String insert = "INSERT INTO pesanan VALUES (?, ?, ?)";
+    +Pesanan_dao()
+    +List<Pesanan_model> getAll()
+    +void insert(Pesanan_model pmod )
+}
+class dao.Pesanan_interface {
+    +List<Pesanan_model> getAll();
+    +void insert(Pesanan_model pmod);
+}
+class java.sql.Date
+class java.util.List
+class javax.swing.JOptionPane
+class models.ListMenu_model {
+    -List<Menu_model> listMenu;
+    +ListMenu_model(List<Menu_model> mM)
+    +int getSize()
+    +Object getElementAt(int index)
+    +int getIdAt(int index)
+}
+class models.Menu_model {
+    -int id;
+    -String menu;
+    -String jenis;
+    -int stok;
+    -double harga;
+    -int jumlah;
+
+    +int getJumlah()
+    +void setJumlah(int jumlah)
+    +int getId()
+    +void setId(int id)
+    +String getMenu()
+    +void setMenu(String menu)
+    +String getJenis()
+    +void setJenis(String jenis)
+    +int getStok()
+    +void setStok(int stok)
+    +double getHarga()
+    +void setHarga(double harga) 
+    +String toString()
+}
+class models.Nota_model {
+    -int id;
+    -Date tanggal;
+    -double total_bayar;
+    -double kembalian;
+
+    +double getKembalian()
+    +void setKembalian(double kembalian)
+    +int getId()
+    +void setId(int id)
+    +Date getTanggal()
+    +void setTanggal(Date tanggal)
+    +double getTotal_bayar()
+    +void setTotal_bayar(double total_bayar)
+}
+class models.Pesanan_model {
+    -int id_menu;
+    -int id_nota;
+    -int jumlah;
+    +int getJumlah()
+    +void setJumlah(int jumlah) 
+    +int getId_menu() 
+    +void setId_menu(int id_menu) 
+    +int getId_nota() 
+    +void setId_nota(int id_nota) 
+}
+class models.TablePesanan_model {
+    -List<Menu_model> listMenuModel; 
+    -final String[] tableHeaders
+    -TablePesanan_model(List<Menu_model> listMenuModel)
+    -String getColumnName(int columnIndex) 
+    -int getRowCount() 
+    -int getColumnCount()
+    -Object getValueAt(int rowIndex, int columnIndex)
+}
+class models.TableTransaksi_model {
+    -List<Nota_model> listTransaksi;
+    -final String[] tableHeaders 
+    +TableTransaksi_model(List<Nota_model> listTransaksi)
+    +String getColumnName(int columnIndex)
+    +int getRowCount() 
+    +int getColumnCount()
+    +Object getValueAt(int rowIndex, int columnIndex) 
+}
+class views.EditMenu_modal
+class views.Main_views
+class views.RiwayatTransaksi_modal
+class views.TambahMenu_modal
+controllers.Menu_controller ..> dao.Menu_dao
+controllers.Menu_controller ..> dao.Menu_interface
+controllers.Menu_controller ..> java.util.List
+controllers.Menu_controller ..> javax.swing.JOptionPane
+controllers.Menu_controller ..> models.ListMenu_model
+controllers.Menu_controller ..> models.Menu_model
+controllers.Menu_controller ..> views.EditMenu_modal
+controllers.Menu_controller ..> views.Main_views
+controllers.Menu_controller ..> views.TambahMenu_modal
+controllers.Nota_controller ..> dao.Nota_dao
+controllers.Nota_controller ..> dao.Nota_interface
+controllers.Nota_controller ..> java.sql.Date
+controllers.Nota_controller ..> java.util.List
+controllers.Nota_controller ..> javax.swing.JOptionPane
+controllers.Nota_controller ..> models.Nota_model
+controllers.Nota_controller ..> models.TableTransaksi_model
+controllers.Nota_controller ..> views.Main_views
+controllers.Nota_controller ..> views.RiwayatTransaksi_modal
+controllers.Pesanan_controller ..> dao.Menu_dao
+controllers.Pesanan_controller ..> dao.Menu_interface
+controllers.Pesanan_controller ..> dao.Pesanan_dao
+controllers.Pesanan_controller ..> dao.Pesanan_interface
+controllers.Pesanan_controller ..> java.util.List
+controllers.Pesanan_controller ..> javax.swing.JOptionPane
+controllers.Pesanan_controller ..> models.Menu_model
+controllers.Pesanan_controller ..> models.Pesanan_model
+controllers.Pesanan_controller ..> models.TablePesanan_model
+controllers.Pesanan_controller ..> views.Main_views
+@enduml
